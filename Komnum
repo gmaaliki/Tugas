@@ -1,0 +1,63 @@
+# Tugas Praktikum 1 Komputasi Numerik C
+# Kelompok C13
+# 1. Clarissa Luna Maheswari (5025211003)
+# 2. Rule Lulu Damara (5025211050)
+# 3. Ghifari Maaliki Syafa Syuhada (5025211158)
+
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+
+# Setting display graph
+def graph_set(title):
+    fig, ax = plt.subplots()
+    ax.spines['left'].set_position('zero')
+    ax.spines['right'].set_color('none')
+    ax.spines['top'].set_color('none')
+    ax.yaxis.tick_left()
+    ax.spines['bottom'].set_position('zero')
+    ax.set_title(title)
+    ax.set_xlabel("X-axis")
+    ax.set_ylabel("Y-axis")
+    ax.grid()
+    return ax
+
+# Plotting graph utama
+def graph_main(left,right,formula,ax):
+    graph_x = np.linspace(math.floor(left),math.ceil(right),(math.ceil(right-left))*100)
+    graph_y = list(map(formula,graph_x))
+    ax.plot(graph_x, graph_y)
+
+# Metode Bolzano dan juga plotting titik dan intervalnya per iterasi
+def graph_bolzano(left, right, formula, number_of_iterations, ax):
+    for i in range(number_of_iterations):
+        mid = (left+right)/2
+        index = str(i)
+        print("Iterasi ke - " + index + " :")
+        print("x1 = ", left)
+        print("x2 = ", right)
+        print("x3 = ", mid)
+        ax.plot(mid,0,'o',label='Iterasi ke - ' + index)
+        ax.legend()
+
+        if(formula(left)*formula(mid) < 0):
+            right = mid
+        else:
+            left = mid
+    return mid
+
+# Fungsi akhir
+def execute(left,right,formula,number_of_iterations,ax):
+    graph_main(left,right,formula,ax)
+    answer = graph_bolzano(left,right,formula,number_of_iterations,ax)
+    print("Aproksimasi penyelesaian di x =", answer)
+    plt.show()
+
+# Variabel dapat digonta-ganti
+formula = lambda x: x**3-3*x+1
+number_of_iterations = 3
+batas_kiri = 1.5
+batas_kanan = 1.6
+
+ax = graph_set("Metode Bolzano")
+execute(batas_kiri,batas_kanan,formula,number_of_iterations,ax)
