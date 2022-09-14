@@ -1,0 +1,2 @@
+# Tugas
+Kok susah bangettt =(
